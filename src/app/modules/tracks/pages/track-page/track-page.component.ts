@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import * as dataRaw from '../../../../data/tracks.json'
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
+import { TrackService } from '@modules/tracks/services/track.service';
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-track-page',
@@ -8,17 +9,34 @@ import { TrackModel } from '@core/models/tracks.model';
   styleUrls: ['./track-page.component.css']
 })
 
-export class TrackPageComponent implements OnInit {
+export class TrackPageComponent implements OnInit, OnDestroy {
 
-  mockTrackList: Array<TrackModel> = [
+  tracksTrending: Array<TrackModel> = []
+  tracksRandom: Array<TrackModel> = []
 
-  ]
-  constructor() {
+  listObservers$: Array<Subscription> = []
 
-  }
+  constructor(private trackService: TrackService) { }
 
   ngOnInit(): void {
-    const { data }: any = (dataRaw as any).default
-    this.mockTrackList = data;
+    this.loadDataAll()
+    this.loadDataRandom()
+  }
+
+  async loadDataAll(): Promise<any> {
+    const dataRaw = await this.trackService.getAllTracks$().toPromise()
+  }
+
+  loadDataRandom(): void {
+    this.trackService.getAllRandom$()
+      .subscribe( response => {
+        this.tracksRandom = response
+      }, err => {
+        
+        console.log("error de conexion")
+      })
+  }
+
+  ngOnDestroy(): void {
   }
 }
