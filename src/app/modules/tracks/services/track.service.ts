@@ -25,7 +25,6 @@ export class TrackService {
   }
 
   getAllTracks$(): Observable<any> {
-    const params = new HttpParams().set('token', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.httpClient.get(`${this.URL}/tracks`, {headers})
     .pipe(
@@ -37,7 +36,6 @@ export class TrackService {
   }
 
   getAllRandom$(): Observable<any> {
-    const params = new HttpParams().set('token', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.httpClient.get(`${this.URL}/tracks`, {headers})
     .pipe(
