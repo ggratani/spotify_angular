@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AuthService } from '@modules/auth/services/auth.service';
-// import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,9 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit {
+  errorSession: boolean = false
   formLogin: FormGroup = new FormGroup({});
 
-  constructor(private authService:AuthService) {}
+  constructor(private authService:AuthService, private cookie: CookieService, 
+    private router:Router) {}
 
   ngOnInit(): void {
     this.formLogin = new FormGroup(
@@ -32,18 +34,18 @@ export class LoginPageComponent implements OnInit {
 
   sendLogin(): void {
     const { email, password } = this.formLogin.value
-    // this.authService.sendCredentials(email, password)
-    //   //TODO: 200 <400
-    //   .subscribe(responseOk => { //TODO: Cuando el usuario credenciales Correctas ✔✔
-    //     console.log('Session iniciada correcta', responseOk);
-    //     const { tokenSession, data } = responseOk
-    //     this.cookie.set('token', tokenSession, 4, '/') //TODO:📌📌📌📌
-    //     this.router.navigate(['/', 'tracks'])
-    //   },
-    //     err => {//TODO error 400>=
-    //       this.errorSession = true
-    //       console.log('⚠⚠⚠⚠Ocurrio error con tu email o password');
-    //     })
+    this.authService.sendCredentials(email, password)
+      //TODO: 200 <400
+      .subscribe(responseOk => { //TODO: Cuando el usuario credenciales Correctas ✔✔
+        console.log('Session iniciada correcta', responseOk);
+        const { tokenSession, data } = responseOk
+        this.cookie.set('token', tokenSession, 4, '/') //TODO:📌📌📌📌
+        this.router.navigate(['/', 'tracks'])
+      },
+        err => {//TODO error 400>=
+          this.errorSession = true
+          console.log('⚠⚠⚠⚠Ocurrio error con tu email o password', err);
+        })
 
   }
 

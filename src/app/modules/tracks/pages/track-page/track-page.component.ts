@@ -13,7 +13,6 @@ export class TrackPageComponent implements OnInit, OnDestroy {
 
   tracksTrending: Array<TrackModel> = []
   tracksRandom: Array<TrackModel> = []
-
   listObservers$: Array<Subscription> = []
 
   constructor(private trackService: TrackService) { }
@@ -24,7 +23,7 @@ export class TrackPageComponent implements OnInit, OnDestroy {
   }
 
   async loadDataAll(): Promise<any> {
-    const dataRaw = await this.trackService.getAllTracks$().toPromise()
+    this.tracksTrending = await this.trackService.getAllTracks$().toPromise()
   }
 
   loadDataRandom(): void {
@@ -32,7 +31,7 @@ export class TrackPageComponent implements OnInit, OnDestroy {
       .subscribe( response => {
         this.tracksRandom = response
       }, err => {
-        
+
         console.log("error de conexion")
       })
   }
