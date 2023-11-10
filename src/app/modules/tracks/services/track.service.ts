@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 export class TrackService {
 
   private readonly URL = environment.api;
-  private readonly token = environment.token;
 
   constructor(private httpClient: HttpClient) { 
     
@@ -25,8 +24,7 @@ export class TrackService {
   }
 
   getAllTracks$(): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.httpClient.get(`${this.URL}/tracks`, {headers})
+    return this.httpClient.get(`${this.URL}/tracks`)
     .pipe(
       map(({ data }: any) => {
         console.log(data)
@@ -36,8 +34,7 @@ export class TrackService {
   }
 
   getAllRandom$(): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.httpClient.get(`${this.URL}/tracks`, {headers})
+    return this.httpClient.get(`${this.URL}/tracks`)
     .pipe(
       mergeMap(({ data }: any) => this.skipById(data, 30)),
       catchError((err) => {
