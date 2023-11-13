@@ -10,6 +10,7 @@ import { TrackModel } from '@core/models/tracks.model';
 export class PlayListBodyComponent implements OnInit{
 
   @Input() tracks: Array<TrackModel> = []
+  
   optionSort: { property: string | null, order: string } = { property: null, order: 'asc' }
   
   constructor() {}
