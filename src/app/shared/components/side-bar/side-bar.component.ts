@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit  } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,12 +14,18 @@ export class SideBarComponent implements OnInit {
 
   customOptions: Array<any> = []
 
+  constructor(private cookieService: CookieService) {}
+
+  isAdmin(): any {
+    const userRole = this.cookieService.get('role'); 
+    return userRole
+  }
+
   ngOnInit(): void {
     this.mainMenu.defaultOptions = [
       {
         name: 'Home',
         icon: 'uil uil-estate',
-        // router: ['/', 'auth']
         router: ['/']
       },
       {
@@ -31,8 +38,17 @@ export class SideBarComponent implements OnInit {
         icon: 'uil uil-chart',
         router: ['/', 'favorites'],
         // query: { hola: 'mundo' }
-      }
+      },
     ]
+    console.log(this.isAdmin())
+    if (this.isAdmin() === "admin") {
+      this.mainMenu.defaultOptions.push({
+        name: 'Configuración',
+        icon: 'uil-plus-square',
+        router: ['/', 'admin'],
+        role: 'admin'
+      });
+    }
 
     this.mainMenu.accessLink = [
       {

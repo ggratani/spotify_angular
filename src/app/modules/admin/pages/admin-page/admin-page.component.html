@@ -1,0 +1,83 @@
+<div class="admin-page">
+    <div class="edit-component">
+        <ul class="play-list-table-header">
+            <li>Nombre ❤</li>
+            <li>Álbum 🆗</li>
+            <li>Artista</li>
+            <li>Cover</li>
+            <li>ID</li>
+            <li>Acción</li>
+        </ul>
+        <ul class="play-list-rows">
+            <li class="track-name">
+                <input type="text" class="track-name" placeholder="Nombre de la pista" [(ngModel)]="newTrack.name">
+            </li>
+            <li class="track-name">
+                <input type="text" class="track-name" placeholder="Nombre del album" [(ngModel)]="newTrack.album">
+            </li>
+            <li class="track-name">
+                <input type="text" class="track-name" placeholder="Nombre del artista" [(ngModel)]="newTrack.artist">
+            </li>
+            <li class="track-name">
+                <input type="text" class="track-name" placeholder="url del cover" [(ngModel)]="newTrack.cover">
+            </li>
+            <li class="track-name-opacity">
+                <input type="text" class="track-name" placeholder="id" [(ngModel)]="newTrack.uid" readonly>
+            </li>
+            <li class="track-name">
+                <div class="button-section" *ngIf="showEditFields">
+                    <button (click)="enviarEdicion()">Editar</button>
+                    <button (click)="deleteTrack()">Eliminar</button>
+                </div>
+                <div class="button-section" *ngIf="!showEditFields">
+                    <button (click)="agregarTrack()">Agregar</button>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="play-list-body">
+        <ul class="play-list-table-header">
+            <li>Nombre ❤</li>
+            <li>álbum 🆗</li>
+            <li>fecha incorporación 🍌😁</li>
+            <li>Editar/Eliminar</li>
+        </ul>
+        <ul class="play-list-rows" *ngFor="let track of listResults">
+            <li class="track-name">
+                <ng-container *ngTemplateOutlet="coverSection;context:{track:track}"></ng-container>
+            </li>
+            <li class="track-name-opacity">
+                {{track.album}}
+            </li>
+            <li class="track-name-opacity">
+                {{track.album}}
+            </li>
+            <li class="track-name-opacity">
+                <ng-container *ngTemplateOutlet="buttonSection;context:{track:track}"></ng-container>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<!--template del cover-->
+<ng-template #coverSection let-track="track">
+
+    <div class="cover-section">
+        <img appImgBroken class="cover-track" [src]="track.cover" [alt]="track.name">
+        <div class="cover-info">
+            <div class="name-track">{{track.name}}</div>
+            <div class="name-track-details">{{track.artist.name}}</div>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #buttonSection let-track="track">
+
+    <div class="button-section">
+        <button (click)="editarPista(track)">Editar</button>
+    </div>
+
+</ng-template>

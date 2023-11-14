@@ -18,7 +18,7 @@ export class TrackService {
 
   private skipById(listTracks: TrackModel[], id: number): Promise<TrackModel[]> {
     return new Promise((resolve, reject) => {
-      const listTemp = listTracks.filter(a => a._id !== id)
+      const listTemp = listTracks.filter(a => a.uid !== id)
       resolve(listTemp)
     })
   }
