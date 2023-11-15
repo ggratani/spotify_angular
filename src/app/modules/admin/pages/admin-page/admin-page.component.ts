@@ -70,17 +70,21 @@ export class AdminPageComponent implements OnInit, OnDestroy{
 
   async deleteTrack() : Promise<any> {
 
-    await this.adminService.deleteTrack$(this.newTrack.uid).toPromise()
-    
-    this.showEditFields = false;
-    this.newTrack = {
-      name: "",
-      album: "",
-      cover: "",
-      url: "",
-      uid:"",
-    };
-    this.loadDataAll()
+    const confirmed = window.confirm('¿Estás seguro de que quieres eliminar esta pista?');
+
+    if (confirmed) {
+      await this.adminService.deleteTrack$(this.newTrack.uid).toPromise()
+      
+      this.showEditFields = false;
+      this.newTrack = {
+        name: "",
+        album: "",
+        cover: "",
+        url: "",
+        uid:"",
+      };
+      this.loadDataAll()
+    }
   }
 
   ngOnDestroy(): void {
