@@ -10,9 +10,7 @@ export class SessionGuard  {
 
   constructor(
     private cookieService: CookieService,
-    private router: Router) {
-
-  }
+    private router: Router) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
