@@ -7,6 +7,12 @@
                 <span class="side-bar__list list-label">{{item.name}}</span>
             </div>
         </li>
+        <li>
+            <div (click)="logout()" class="list-wrapper-item">
+                <i [ngClass]="['uil','uil uil-sign-out-alt']"></i>
+                <span class="side-bar__list list-label">Cerrar sesión</span>
+            </div>
+        </li>
     </ul>
     <div class="side-bar__separator"></div>
     <ul class="side-bar__list list-two">

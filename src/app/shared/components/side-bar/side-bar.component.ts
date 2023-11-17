@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit  } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -14,7 +15,7 @@ export class SideBarComponent implements OnInit {
 
   customOptions: Array<any> = []
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService, private router: Router) {}
 
   isAdmin(): any {
     const userRole = this.cookieService.get('role'); 
@@ -38,13 +39,13 @@ export class SideBarComponent implements OnInit {
         icon: 'uil uil-chart',
         router: ['/', 'favorites'],
         // query: { hola: 'mundo' }
-      },
+      }
     ]
     console.log(this.isAdmin())
     if (this.isAdmin() === "admin") {
       this.mainMenu.defaultOptions.push({
         name: 'Configuración',
-        icon: 'uil-plus-square',
+        icon: 'uil uil-cog',
         router: ['/', 'admin'],
         role: 'admin'
       });
@@ -81,4 +82,18 @@ export class SideBarComponent implements OnInit {
     ]
   }
 
+  logout(): void {
+    // Elimina todas las cookies al seleccionar logout
+    this.cookieService.deleteAll();
+    
+    // Redirige al usuario a la página de inicio o a donde desees después del logout
+    this.router.navigate(['auth/login']); // Reemplaza '/login' con la ruta adecuada
+
+    // Si deseas limpiar el array de opciones después del logout, puedes hacerlo así:
+    this.mainMenu.defaultOptions = [];
+    this.mainMenu.accessLink = [];
+    this.customOptions = [];
+  }
 }
+
+
