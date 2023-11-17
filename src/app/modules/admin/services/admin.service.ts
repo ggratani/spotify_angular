@@ -17,7 +17,8 @@ export class AdminService {
 
     const filteredTrack = {
       name: track.name,
-      album: track.album
+      album: track.album,
+      cover: track.cover
     };
     console.log(filteredTrack)
     console.log(`${this.URL}/tracks/edit/${track.uid}`)
